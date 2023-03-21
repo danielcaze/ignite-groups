@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/native';
 import { Groups } from './src/screens/Groups';
 import LightTheme from './src/theme'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
@@ -14,7 +14,6 @@ export default function App() {
   return (
     <ThemeProvider theme={LightTheme}>
       <StatusBar style="light" backgroundColor='transparent' translucent />
-      <Header />
       {
         fontsLoaded ? <Groups /> : <Loading />
       }
