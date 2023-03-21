@@ -27,6 +27,7 @@ export function Players() {
       </Form>
       <HeaderList>
         <FlatList
+          horizontal
           showsHorizontalScrollIndicator={false}
           data={['Time A', 'Time B']}
           keyExtractor={item => item}
