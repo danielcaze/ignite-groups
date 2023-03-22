@@ -1,7 +1,9 @@
-import { Button } from "@components/Button";
-import { Header } from "@components/Header";
-import { Highlight } from "@components/Highlight";
-import { Input } from "@components/Input";
+import {
+  Button,
+  Header,
+  Highlight,
+  Input
+} from "@components";
 import { Container, Content, Icon } from "./styles";
 
 export function NewGroup() {

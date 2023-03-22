@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import { ButtonIcon } from "@components/ButtonIcon";
-import { Filter } from "@components/Filter";
-import { Header } from "@components/Header";
-import { Highlight } from "@components/Highlight";
-import { Input } from "@components/Input";
-import { FlatList } from "react-native/Libraries/Lists/FlatList";
+import {
+  ButtonIcon,
+  Filter, Header,
+  Highlight,
+  Input,
+  PlayerCard,
+  ListEmpty,
+  Button
+} from "@components";
+import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
-import { PlayerCard } from '@components/PlayerCard';
-import { ListEmpty } from '@components/ListEmpty';
-import { Button } from '@components/Button';
 
 export function Players() {
   const [players, setPlayers] = useState([])
