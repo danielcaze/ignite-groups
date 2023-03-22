@@ -10,8 +10,9 @@ import {
 } from "@components";
 import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
+import { RouteProps } from 'src/types';
 
-export function Players() {
+export function Players({ navigation }: RouteProps<'players'>) {
   const [players, setPlayers] = useState([])
   const [selectedTeam, setSelectedTeam] = useState('Time A')
 

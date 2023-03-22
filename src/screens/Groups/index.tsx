@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { FlatList } from "react-native";
 import {
   Button,
   GroupCard,
@@ -5,17 +7,21 @@ import {
   Highlight,
   ListEmpty
 } from "@components";
-import { useState } from "react";
-import { FlatList } from "react-native";
 import { Container } from "./styles";
+import { RouteProps } from "src/types";
 
 type Group = {
   id: string,
   title: string,
 }
 
-export function Groups() {
+export function Groups({ navigation }: RouteProps<'groups'>) {
   const [groups, setGroups] = useState<Group[]>([])
+
+  function handleNewGroup() {
+    navigation.navigate('newGroup')
+  }
+
   return (
     <Container>
       <Header />
@@ -32,7 +38,7 @@ export function Groups() {
         ListEmptyComponent={() => <ListEmpty message="Que tal cadastrar a primeira turma?" />}
         showsVerticalScrollIndicator={false}
       />
-      <Button title="Criar nova turma" />
+      <Button title="Criar nova turma" onPress={handleNewGroup} />
     </Container>
   )
 }
