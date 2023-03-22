@@ -26,7 +26,7 @@ export function NewGroup({ navigation }: RouteProps<'newGroup'>) {
       <Content>
         <Icon />
         <Highlight title="Nova turma" subtitle="crie a turma para adicionar as pessoas" />
-        <Input />
+        <Input onChangeText={setGroupName} />
         <Button title="Criar" style={{ marginTop: 20 }} onPress={handleNewPlayers} />
       </Content>
     </Container>

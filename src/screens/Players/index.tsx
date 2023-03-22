@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRoute } from '@react-navigation/native';
 import {
   ButtonIcon,
   Filter, Header,
@@ -11,21 +12,39 @@ import {
 import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 import { RouteProps } from 'src/types';
+import { Alert } from 'react-native/Libraries/Alert/Alert';
+
+type RouteParams = {
+  group: string
+}
 
 export function Players({ navigation }: RouteProps<'players'>) {
-  const [players, setPlayers] = useState([])
+  const [players, setPlayers] = useState<string[]>([])
+  const [newPlayerName, setNewPlayerName] = useState('')
   const [selectedTeam, setSelectedTeam] = useState('Time A')
+
+  const route = useRoute()
+  const { group } = route.params as RouteParams
+
+  function handleAddPlayer() {
+    if (!newPlayerName) return Alert.alert('', 'Nome de jogador inválido', [
+      {
+        text: 'Ok'
+      }
+    ])
+    setPlayers(state => [...state, newPlayerName])
+  }
 
   return (
     <Container>
       <Header showBackButton />
 
-      <Highlight title="Nome da turma" subtitle="adicione a galera e separe os times" />
+      <Highlight title={group} subtitle="adicione a galera e separe os times" />
 
       <Form>
-        <Input placeholder="Nome da pessoa" autoCorrect={false} />
+        <Input placeholder="Nome da pessoa" autoCorrect={false} onChangeText={setNewPlayerName} />
 
-        <ButtonIcon icon='add' />
+        <ButtonIcon icon='add' onPress={handleAddPlayer} />
       </Form>
       <HeaderList>
         <FlatList
