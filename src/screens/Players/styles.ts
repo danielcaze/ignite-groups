@@ -32,3 +32,7 @@ export const NumberOfPlayers = styled.Text`
     font-size: ${theme.FONT_SIZE.SM}px;
   `}
 `
+export const ButtonView = styled.View`
+  flex-direction: row;
+  gap: 16px
+`

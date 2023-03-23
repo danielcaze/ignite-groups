@@ -19,5 +19,5 @@ export const Container = styled.TouchableOpacity`
 
 export const Icon = styled(MaterialIcons).attrs<ButtonProps>(({ theme, type }) => ({
   size: 24,
-  color: type === 'PRIMARY' ? theme.COLORS.GREEN_700 : theme.COLORS.GREEN_700
+  color: type === 'PRIMARY' ? theme.COLORS.GREEN_700 : theme.COLORS.RED_DARK
 }))``

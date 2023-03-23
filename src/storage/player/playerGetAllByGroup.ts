@@ -1,12 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { PLAYER_COLLECTION } from "@storage/storageConfig";
-import { Player } from "src/types";
+import { GROUP_COLLECTION } from "@storage/storageConfig";
+import { Group, Player } from "src/types";
 
-export async function playerGetAllByGroup(group: string) {
+export async function playerGetAllByGroup(groupName: string) {
   try {
-    const stored = await AsyncStorage.getItem(`${PLAYER_COLLECTION}-${group}`);
+    const stored = await AsyncStorage.getItem(GROUP_COLLECTION);
+    const groups: Group[] = stored ? JSON.parse(stored) : [];
+    const players: Player[] = groups.find(group => group.title === groupName)?.players ?? []
 
-    const players: Player[] = stored ? JSON.parse(stored) : [];
     return players
   } catch (error) {
     throw error

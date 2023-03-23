@@ -5,7 +5,7 @@ import {
   Input
 } from "@components";
 import { Container, Content, Icon } from "./styles";
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import { RouteProps } from 'src/types';
 import { groupNameSave } from "@storage/group/groupUnfinished";
@@ -15,16 +15,17 @@ import { groupGetUnfinished } from "@storage/group/groupGetUnfinished";
 export function NewGroup({ navigation }: RouteProps<'newGroup'>) {
   const [groupName, setGroupName] = useState('')
 
+  const isStored = useRef<boolean>(false)
+
   async function handleNewPlayers() {
-    if (!groupName.trim()) return Alert.alert('', 'Nome de grupo inválido.', [
-      { text: 'Ok' }
-    ])
+    if (!groupName.trim()) return Alert.alert('Novo grupo', 'Nome de grupo inválido.')
     await groupNameSave(groupName)
-    navigation.navigate('players', { group: groupName })
+    navigation.navigate('players', { group: groupName, isStored: isStored.current })
   }
 
   async function handleGetUnfinished() {
     const data = await groupGetUnfinished()
+    if (!!data.trim()) isStored.current = true
     setGroupName(data)
   }
 

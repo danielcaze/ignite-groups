@@ -3,6 +3,7 @@ export type RootParamsList = {
   newGroup: undefined;
   players: {
     group: string
+    isStored?: boolean
   }
 }
 

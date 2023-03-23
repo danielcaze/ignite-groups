@@ -1,9 +1,9 @@
-import { ButtonIcon } from "@components/ButtonIcon";
+import { ButtonIcon } from "@components";
 import { Container, Icon, Name } from "./styles";
 
 type PlayerCardProps = {
   name: string
-  onRemove(): void
+  onRemove(): Promise<void>
 }
 
 export function PlayerCard({ name, onRemove }: PlayerCardProps) {
