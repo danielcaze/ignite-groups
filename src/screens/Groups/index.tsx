@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { FlatList } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   Button,
   GroupCard,
@@ -8,12 +9,8 @@ import {
   ListEmpty
 } from "@components";
 import { Container } from "./styles";
-import { RouteProps } from "src/types";
-
-type Group = {
-  id: string,
-  title: string,
-}
+import { Group, RouteProps } from "src/types";
+import { groupsGetAll } from "@storage/group/groupsGetAll";
 
 export function Groups({ navigation }: RouteProps<'groups'>) {
   const [groups, setGroups] = useState<Group[]>([])
@@ -21,6 +18,21 @@ export function Groups({ navigation }: RouteProps<'groups'>) {
   function handleNewGroup() {
     navigation.navigate('newGroup')
   }
+
+  async function fetchGroups() {
+    try {
+      const data = await groupsGetAll()
+      setGroups(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchGroups()
+    }, [])
+  )
 
   return (
     <Container>

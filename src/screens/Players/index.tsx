@@ -13,6 +13,8 @@ import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 import { RouteProps } from 'src/types';
 import { Alert } from 'react-native/Libraries/Alert/Alert';
+import { groupCreate } from '@storage/group/groupCreate';
+import { AppError } from '@utils/app-error';
 
 type RouteParams = {
   group: string
@@ -27,12 +29,21 @@ export function Players({ navigation }: RouteProps<'players'>) {
   const { group } = route.params as RouteParams
 
   function handleAddPlayer() {
-    if (!newPlayerName) return Alert.alert('', 'Nome de jogador inválido', [
-      {
-        text: 'Ok'
-      }
-    ])
+    if (!newPlayerName.trim()) return Alert.alert('', 'Nome de jogador inválido')
     setPlayers(state => [...state, newPlayerName])
+  }
+
+  function handleCreateGroup() {
+    try {
+      const newGroup = {}
+      // await groupCreate()
+      navigation.navigate('groups')
+    } catch (error) {
+      if (error instanceof AppError) {
+        return Alert.alert('Novo Grupo', error.message)
+      }
+      Alert.alert('Novo Grupo', 'Não foi possivel criar um novo grupo')
+    }
   }
 
   return (
