@@ -16,7 +16,7 @@ export function NewGroup({ navigation }: RouteProps<'newGroup'>) {
   const [groupName, setGroupName] = useState('')
 
   async function handleNewPlayers() {
-    if (!groupName) return Alert.alert('', 'Nome de grupo inválido.', [
+    if (!groupName.trim()) return Alert.alert('', 'Nome de grupo inválido.', [
       { text: 'Ok' }
     ])
     await groupNameSave(groupName)

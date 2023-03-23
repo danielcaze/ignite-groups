@@ -19,6 +19,10 @@ export function Groups({ navigation }: RouteProps<'groups'>) {
     navigation.navigate('newGroup')
   }
 
+  function handleOpenGroup(groupName: string) {
+    navigation.navigate('players', { group: groupName })
+  }
+
   async function fetchGroups() {
     try {
       const data = await groupsGetAll()
@@ -44,6 +48,7 @@ export function Groups({ navigation }: RouteProps<'groups'>) {
         renderItem={({ item }) => (
           <GroupCard
             title={item.title}
+            onPress={() => handleOpenGroup(item.title)}
           />
         )}
         contentContainerStyle={groups.length === 0 && { flex: 1 }}

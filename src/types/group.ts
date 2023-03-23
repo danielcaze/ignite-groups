@@ -1,9 +1,11 @@
 export type Group = {
   id: string,
   title: string,
-  players: Team[]
+  players: Player[]
 }
 
-export type Team = {
-  players: string[]
+export type Player = {
+  id: string
+  name: string
+  team: string
 }

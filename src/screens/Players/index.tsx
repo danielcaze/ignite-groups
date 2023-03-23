@@ -11,7 +11,7 @@ import {
 } from "@components";
 import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
-import { RouteProps } from 'src/types';
+import { Group, Player, RouteProps } from 'src/types';
 import { Alert } from 'react-native/Libraries/Alert/Alert';
 import { groupCreate } from '@storage/group/groupCreate';
 import { AppError } from '@utils/app-error';
@@ -21,22 +21,35 @@ type RouteParams = {
 }
 
 export function Players({ navigation }: RouteProps<'players'>) {
-  const [players, setPlayers] = useState<string[]>([])
+  const [players, setPlayers] = useState<Player[]>([])
   const [newPlayerName, setNewPlayerName] = useState('')
   const [selectedTeam, setSelectedTeam] = useState('Time A')
+
+  const TeamAPLayers = players.filter(player => player.team === 'Time A')
+  const TeamBPLayers = players.filter(player => player.team === 'Time B')
 
   const route = useRoute()
   const { group } = route.params as RouteParams
 
   function handleAddPlayer() {
     if (!newPlayerName.trim()) return Alert.alert('', 'Nome de jogador inválido')
-    setPlayers(state => [...state, newPlayerName])
+    const newPlayer: Player = {
+      name: newPlayerName,
+      id: String(players.length + 1),
+      team: selectedTeam
+    }
+    setPlayers(state => [...state, newPlayer])
+    setNewPlayerName('')
   }
 
-  function handleCreateGroup() {
+  async function handleCreateGroup() {
     try {
-      const newGroup = {}
-      // await groupCreate()
+      const newGroup: Group = {
+        id: new Date().toISOString(),
+        title: group,
+        players,
+      }
+      await groupCreate(newGroup)
       navigation.navigate('groups')
     } catch (error) {
       if (error instanceof AppError) {
@@ -53,7 +66,7 @@ export function Players({ navigation }: RouteProps<'players'>) {
       <Highlight title={group} subtitle="adicione a galera e separe os times" />
 
       <Form>
-        <Input placeholder="Nome da pessoa" autoCorrect={false} onChangeText={setNewPlayerName} />
+        <Input placeholder="Nome da pessoa" autoCorrect={false} onChangeText={setNewPlayerName} value={newPlayerName} />
 
         <ButtonIcon icon='add' onPress={handleAddPlayer} />
       </Form>
@@ -76,9 +89,9 @@ export function Players({ navigation }: RouteProps<'players'>) {
 
       <FlatList
         data={players}
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <PlayerCard name={item} onRemove={() => { }} />
+          <PlayerCard name={item.name} onRemove={() => { }} />
         )}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => <ListEmpty message="Não há pessoas nesse time." />}
